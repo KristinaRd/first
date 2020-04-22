@@ -1,17 +1,30 @@
 *{
     box-sizing: border-box;
+    background-image: url(https://www.nasa.gov/sites/default/files/styles/full_width_feature/public/thumbnails/image/potw1952a.jpg);
+    background-size: cover;
 
 }
+
 
 nav{
     display: flex;
     justify-content: space-around ;
-    align-items: center;
-    background-color: rebeccapurple;
+    background-color: rgb(0, 0, 0);
 
 }
-.nav-links{
+
+
+span {
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 300;
+    color: #fff;
+    text-transform: uppercase;
+
+
+}
+/* .nav-links{
     display: flex;
     justify-content: space-around;
     width: 70%;
-}
+} */
