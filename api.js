@@ -1,12 +1,22 @@
+var URL = "https://api.nasa.gov/planetary/apod";
 
-<script>
-$.ajax ({
-    url:"https://api.nasa.gov/planetary/apod?api_key=7MBunEcob2YLUUcZZq0Z5GtCVuYWxB4blhGy3sKY",
-    success: function(getImages){
-        document.getElementById("img").innerHTML="<img scr="+getImages.url+"' style='width: 100%;'/>";
-        document.getElementById("copyright").innerHTML="By"+getImages.copyright;
-        document.getElementById("title").innerHTML=getImages.title;
-        document.getElementById("explanation").innerHTML=getImages.explanation;
-    }
+$.ajax({
+    url: URL,
+    data: {
+        api_key: "7MBunEcob2YLUUcZZq0Z5GtCVuYWxB4blhGy3sKY",
+        hd: true,
+        date: "2020-04-24"
+    },
+    success: function (response){
+        if(response.media_type !="image") {
+            $('#data').html('<iframe width="420" height="315" src="'+response.url+'"></iframe>');
+        } else {
+            $('#data').html('<img src="'+response.url+'">');
+        }
+
+        },
+        error: function(xhr) {
+            alert(xhr);
+        }
+    
 });
-</script>
