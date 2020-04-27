@@ -1,41 +1,24 @@
-<DOCTYPE! html>
-
+<!DOCTYPE html>
 <html>
-
-<head>
-<meta charset="utf-8">
-<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
-<title>Picture of the day</title>
-<script  language="JavaScript" type="text/javascript"></script>
-<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>  
-</head>
-
-<body>
-    <div id="data"></div>
-    <div id="data2"></div>
-    
-    
-</body>
-<script>var URL = "https://api.nasa.gov/planetary/apod";
-
-    $.ajax({
-        url: URL,
-        data: {
-            api_key: "7MBunEcob2YLUUcZZq0Z5GtCVuYWxB4blhGy3sKY",
-            hd: true,
-            date: "2020-04-24"
-        },
-        success: function (response){
-            if(response.media_type !="image") {
-                $('#data').html('<iframe width="420" height="315" src="'+response.url+'"></iframe>');
-            } else {
-                $('#data2').html('<img src="'+response.url+'">');
-            }
-    
-            },
-            error: function(xhr) {
-                alert(xhr);
-            }
-        
-    });</script>
+    <head>
+        <script type="text/javascript">
+        async function getPicture() {
+            const response = await fetch("https://api.nasa.gov/planetary/apod?api_key=7MBunEcob2YLUUcZZq0Z5GtCVuYWxB4blhGy3sKY");
+            const pictureElem = document.getElementById("data");
+            const explElem = document.getElementById("expl");
+            if (!response.ok) {
+                pictureElem.innerHTML = "Error was occured";
+                return;
+            } 
+            const result = await response.json()
+            pictureElem.innerHTML = '<img src="'+result.url+'">';
+            explElem.innerHTML = result.explanation;
+        }
+        </script>
+    </head>
+    <body>
+        <button onclick="getPicture()">Push the button</button>
+        <div id="data"></div>
+        <div id="expl"></div>
+    </body>
 </html>
