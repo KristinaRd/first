@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript">
+        function fetchData() {
+
+            fetch("https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=7MBunEcob2YLUUcZZq0Z5GtCVuYWxB4blhGy3sKY").then(response => {
+                if (!response.ok) {
+                    throw Error("Error was occured");
+                }
+                return response.json();
+             
+            }).then(data => {
+                console.log(data.near_earth_objects);
+
+                const html = data.near_earth_objects.map(objects => {
+                    return `
+                    <div class="objects">
+
+                        <p>Name:  ${objects.name}</p>
+                        <p>Designation:  ${objects.designation}</p>
+                        <p>Magnitude:  ${objects.absolute_magnitude_h}</p>
+                        <p>Potencial hazardous:  ${objects.is_potentially_hazardous_asteroid}</p>
+                        
+                    </div>`
+                }).join("");
+                console.log(html);
+
+                document
+                .querySelector('#near_earth_objects')
+                .innerHTML = html ;
+
+            }).catch(error => {
+                console.log(error)
+
+            });
+            
+        }
+        fetchData();
+        </script>
+        <style>
+            .objects {
+                background-color: #f9f9;
+                padding: 0.2cm;
+                margin-bottom: 0.2cm
+            }
+        </style>
+    </head>
+    <body>
+        <div id="near_earth_objects"></div>
+    </body>
+</html>
