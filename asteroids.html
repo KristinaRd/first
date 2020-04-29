@@ -2,25 +2,26 @@
 <html>
     <head>
         <script type="text/javascript">
-        function fetchData() {
+        async function fetchData() {
+            try {
 
-            fetch("https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=7MBunEcob2YLUUcZZq0Z5GtCVuYWxB4blhGy3sKY").then(response => {
-                if (!response.ok) {
-                    throw Error("Error was occured");
-                }
-                return response.json();
-             
-            }).then(data => {
+                const data = await fetch("https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=7MBunEcob2YLUUcZZq0Z5GtCVuYWxB4blhGy3sKY").then(response => {
+                    if (!response.ok) {
+                        throw Error("Error was occured");
+                    }
+                    return response.json();
+                
+                })
                 console.log(data.near_earth_objects);
 
-                const html = data.near_earth_objects.map(objects => {
+                const html = data.near_earth_objects.map(object => {
                     return `
-                    <div class="objects">
+                    <div class="object">
 
-                        <p>Name:  ${objects.name}</p>
-                        <p>Designation:  ${objects.designation}</p>
-                        <p>Magnitude:  ${objects.absolute_magnitude_h}</p>
-                        <p>Potencial hazardous:  ${objects.is_potentially_hazardous_asteroid}</p>
+                        <p>Name:  ${object.name}</p>
+                        <p>Designation:  ${object.designation}</p>
+                        <p>Magnitude:  ${object.absolute_magnitude_h}</p>
+                        <p>Potencial hazardous:  ${object.is_potentially_hazardous_asteroid}</p>
                         
                     </div>`
                 }).join("");
@@ -30,16 +31,16 @@
                 .querySelector('#near_earth_objects')
                 .innerHTML = html ;
 
-            }).catch(error => {
-                console.log(error)
+            } catch(error) {
+                console.error(error)
 
-            });
+            };
             
         }
         fetchData();
         </script>
         <style>
-            .objects {
+            .object {
                 background-color: #f9f9;
                 padding: 0.2cm;
                 margin-bottom: 0.2cm
