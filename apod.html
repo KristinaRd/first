@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript">
+        async function getPicture() {
+            const response = await fetch("https://api.nasa.gov/planetary/apod?api_key=7MBunEcob2YLUUcZZq0Z5GtCVuYWxB4blhGy3sKY");
+            const pictureElem = document.getElementById("data");
+            const explElem = document.getElementById("expl");
+            if (!response.ok) {
+                pictureElem.innerHTML = "Error was occured";
+                return;
+            } 
+            const result = await response.json()
+            pictureElem.innerHTML = '<img src="'+result.url+'">';
+            explElem.innerHTML = result.explanation;
+        }
+        </script>
+    </head>
+    <body>
+        <button onclick="getPicture()">Push the button</button>
+        <div id="data"></div>
+        <div id="expl"></div>
+    </body>
+</html>
