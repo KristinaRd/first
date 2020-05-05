@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript">
+        
+        async function fetchData() {
+            try {
+
+                const data = await fetch("https://api.nasa.gov/EPIC/api/natural?api_key=7MBunEcob2YLUUcZZq0Z5GtCVuYWxB4blhGy3sKY").then(response => {
+                    if (!response.ok) {
+                        throw Error("Error was occured");
+                    }
+                    return response.json();
+                
+                })
+                console.log(data);
+               
+                // const dateEdited = data.date ;
+                // const dateEditede = dateEdited.replace('-', '/') ;
+                const html = data.map(epic => {
+                    return `
+                    <div class="epic">
+
+                        <p>Name:  ${epic.identifier}</p>    
+                        <p>Caption:  ${epic.caption}</p>
+                        <p>Image: <image src="
+                        https://api.nasa.gov/EPIC/archive/natural/${epic.date}/png/${epic.image}.png?api_key=7MBunEcob2YLUUcZZq0Z5GtCVuYWxB4blhGy3sKY"></p>
+                        <p>Date:  ${epic.date}</p>
+                        
+                    </div>`
+                }).join("");
+                
+                // const res = html.replace('-', '/');
+                console.log(html);
+
+                document
+                .querySelector('#epic')
+                .innerHTML = html ;
+
+            } catch(error) {
+                console.error(error)
+
+            };
+            
+        }
+        fetchData();
+        </script>
+        <style>
+            .epic {
+                background-color: #f9f9;
+                padding: 0.2cm;
+                margin-bottom: 0.2cm
+            }
+        </style>
+    </head>
+    <body>
+        <div id="epic"></div>
+    </body>
+</html>

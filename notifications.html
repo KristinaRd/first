@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript">
+        async function fetchData() {
+            try {
+
+                const data = await fetch("https://api.nasa.gov/DONKI/notifications?type=all&api_key=7MBunEcob2YLUUcZZq0Z5GtCVuYWxB4blhGy3sKY")
+                .then(response => {
+                    if (!response.ok) {
+                        throw Error("Error was occured");
+                    }
+                    return response.json();
+                
+                })
+                console.log(data);
+
+                const html = data.map(notification => {
+                    return `
+                    <div class="notification">
+
+                        <p>Message type:  ${notification.messageType}</p>
+                        <p>Message ID:  ${notification.messageID}</p>
+                        <p>Issue Time:  ${notification.messageIssueTime}</p>
+                        <span>Message:  ${notification.messageBody}</span>
+                        
+                    </div>`
+                }).join("");
+                console.log(html);
+                document.getElementById('notification').innerHTML = html;
+                
+            } catch(error) {
+                console.error(error)
+
+            };
+            
+        }
+        fetchData();
+        </script>
+        <style>
+            .notification {
+                background-color: #b8d1c9;
+                padding: 0.2cm;
+                margin-bottom: 0.2cm;
+                font: message-box;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="notification"></div>
+    </body>
+</html>

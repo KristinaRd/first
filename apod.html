@@ -11,7 +11,7 @@
                 return;
             } 
             const result = await response.json()
-            pictureElem.innerHTML = '<img src="'+result.url+'">';
+            pictureElem.innerHTML = `<img src="${result.url}">`;
             explElem.innerHTML = result.explanation;
         }
         </script>
